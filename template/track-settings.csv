@@ -1,0 +1,8 @@
+Setting,Value,What it does
+Email hour (0-23),7,"The hour your morning email arrives (7 = between 7 and 8 AM, your sheet's time zone)."
+"Done, not invoiced: days",1,Flag a Done job once it has waited MORE than this many days without being invoiced.
+"Quote, no reply: days",3,Flag a quote once it has waited MORE than this many days.
+"Invoiced, unpaid: days",14,Flag an unpaid invoice after MORE than this many days.
+"Invoiced, unpaid (late): days",30,Move it to the late list after MORE than this many days.
+Email when nothing is stuck (Yes/No),No,"Yes = get an email every day, even when nothing is stuck."
+Business name (optional),,Shown in the email subject. Leave blank if you like.

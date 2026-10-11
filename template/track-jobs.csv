@@ -1,0 +1,6 @@
+Job ID,Customer,Job,Stage,Stage date,Amount,Crew,Snooze until
+1001,Example: Smith,Water heater swap,Done,2026-10-07,450,Crew A,
+1002,Example: Lopez,Fence quote,Quote,2026-10-05,,,
+1003,Example: Patel,Kitchen rewire,Invoiced,2026-09-20,1800,Crew B,
+1004,Example: Kim,Gutter clean,Booked,2026-10-08,220,Crew A,
+1005,Example: Brown,Drain repair,Paid,2026-10-01,300,,

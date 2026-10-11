@@ -1,0 +1,8 @@
+{
+  "name": "track",
+  "version": "1.0.0",
+  "private": true,
+  "description": "TRACK: a free job tracker for Google Sheets (FloHub). Node is only used to test Code.gs.",
+  "license": "MIT",
+  "scripts": { "test": "node test/run-tests.js" }
+}
