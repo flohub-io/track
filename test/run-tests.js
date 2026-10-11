@@ -10,7 +10,7 @@ function fmtDate(d, tz, pattern) {
   return `${p.year}-${p.month}-${p.day}`;
 }
 
-function makeEnv({ jobs, settings, tz = 'America/Los_Angeles', now, me = 'owner@example.com' }) {
+function makeEnv({ jobs, settings, tz = 'America/Phoenix', now, me = 'owner@example.com' }) {
   const sent = [], triggers = [], alerts = [];
   const RealDate = Date;
   const FakeDate = class extends RealDate { constructor(...a) { a.length ? super(...a) : super(now); } static now() { return new RealDate(now).getTime(); } };
@@ -79,7 +79,7 @@ test('stuck rules at the exact boundaries (more than N days)', () => {
   ];
   const { ctx } = makeEnv({ jobs, now: NOW });
   const s = ctx.trackParseSettings_([]);
-  const res = ctx.trackFindStuck_(ctx.trackReadJobs_(), s, '2026-10-09', 'America/Los_Angeles', ctx.trackFmt_);
+  const res = ctx.trackFindStuck_(ctx.trackReadJobs_(), s, '2026-10-09', 'America/Phoenix', ctx.trackFmt_);
   assert.deepStrictEqual(JSON.parse(JSON.stringify(res.items.map(j => j.id + ':' + j.rule))),
     ['J2:done_not_invoiced', 'J8:unpaid_late', 'J7:unpaid', 'J6:unpaid', 'J4:quote_no_reply']);
   assert.strictEqual(res.openCount, 9);
@@ -104,17 +104,17 @@ test('snooze, missing dates, unknown stages, case-insensitive stages, text dates
     ['', '', '', '', '', '', '', '']                                            // blank row ignored
   ];
   const { ctx } = makeEnv({ jobs, now: NOW });
-  const res = ctx.trackFindStuck_(ctx.trackReadJobs_(), ctx.trackParseSettings_([]), '2026-10-09', 'America/Los_Angeles', ctx.trackFmt_);
+  const res = ctx.trackFindStuck_(ctx.trackReadJobs_(), ctx.trackParseSettings_([]), '2026-10-09', 'America/Phoenix', ctx.trackFmt_);
   assert.deepStrictEqual([...res.items.map(j => j.id)].sort(), ['B', 'E', 'F']);
   assert.deepStrictEqual([...res.needsDate.map(j => j.id)], ['C']);
   assert.deepStrictEqual([...res.unknownStage.map(j => j.id)], ['D']);
 });
 
-test('timezone: a late-evening PT date stays on the PT calendar day', () => {
-  // 2026-10-07 23:30 PT = 2026-10-08 06:30Z. In PT that is the 7th → 2 days → stuck.
+test('timezone: a late-evening local date stays on the local calendar day', () => {
+  // 2026-10-07 23:30 local (UTC-7) = 2026-10-08 06:30Z. Locally that is the 7th → 2 days → stuck.
   const jobs = [['T', 'TZ', 'x', 'Done', new Date('2026-10-08T06:30:00Z'), '', '', '']];
   const { ctx } = makeEnv({ jobs, now: NOW });
-  const res = ctx.trackFindStuck_(ctx.trackReadJobs_(), ctx.trackParseSettings_([]), '2026-10-09', 'America/Los_Angeles', ctx.trackFmt_);
+  const res = ctx.trackFindStuck_(ctx.trackReadJobs_(), ctx.trackParseSettings_([]), '2026-10-09', 'America/Phoenix', ctx.trackFmt_);
   assert.strictEqual(res.items.length, 1);
   assert.strictEqual(res.items[0].days, 2);
 });
@@ -163,7 +163,7 @@ test('onEdit stamps Stage date only for Stage edits on the Jobs tab', () => {
   const J = sheets.Jobs;
   J.rows[1][3] = 'Done';
   ctx.onEdit({ range: J.getRange(2, 4) });
-  assert.strictEqual(fmtDate(J.rows[1][4], 'America/Los_Angeles', 'yyyy-MM-dd'), '2026-10-09');
+  assert.strictEqual(fmtDate(J.rows[1][4], 'America/Phoenix', 'yyyy-MM-dd'), '2026-10-09');
   ctx.onEdit({ range: J.getRange(3, 4) });            // empty stage → no stamp
   assert.strictEqual(J.rows[2][4], '');
   const before = J.rows[1][4]; J.rows[1][4] = 'keep';
@@ -194,7 +194,7 @@ test('template CSVs load and parse (example rows: 1001 done 2d, 1002 quote 4d, 1
   assert.deepStrictEqual(JSON.parse(JSON.stringify(ctx.trackReadJobs_()[0])).slice(0, 4), ['1001', 'Example: Smith', 'Water heater swap', 'Done']);
   const s = ctx.trackParseSettings_(sets.slice(1));
   assert.strictEqual(s['Invoiced, unpaid: days'], 14);
-  const res = ctx.trackFindStuck_(ctx.trackReadJobs_(), s, '2026-10-09', 'America/Los_Angeles', ctx.trackFmt_);
+  const res = ctx.trackFindStuck_(ctx.trackReadJobs_(), s, '2026-10-09', 'America/Phoenix', ctx.trackFmt_);
   assert.deepStrictEqual([...res.items.map(j => j.id + ':' + j.rule)], ['1001:done_not_invoiced', '1003:unpaid', '1002:quote_no_reply']);
 });
 

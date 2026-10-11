@@ -51,12 +51,14 @@ Value on your sheet for these jobs: $2,450.50 (2 of 3 have an amount)
 2. In your copy, delete the 5 example rows (they start with "Example:").
 3. Reload the page. A **TRACK** menu appears at the top, next to Help.
 4. Click **TRACK → Turn on morning email**. Google asks for permission the first time (see "The Google permission screen" below).
+
+   **Want pictures?** The **[illustrated setup guide](docs/SETUP.md)** shows every screen, step by step.
 5. Click **TRACK → Send me a test email now** to check it works.
 
 That's it. You get one email a day at the hour on the Settings tab (7 AM by default), only on days something is stuck.
 
 ### Option B: build it yourself from this repo
-Want to see every piece? Follow **[docs/SETUP.md](docs/SETUP.md)**: import `template/TRACK-template.xlsx` into Google Sheets, then paste in `Code.gs` and `appsscript.json`.
+Want to see every piece? Follow the **[illustrated setup guide (docs/SETUP.md)](docs/SETUP.md#option-b-build-it-yourself-from-this-repo)**: import `template/TRACK-template.xlsx` into Google Sheets, then paste in `Code.gs` and `appsscript.json`.
 
 ---
 
@@ -74,18 +76,27 @@ Want to see every piece? Follow **[docs/SETUP.md](docs/SETUP.md)**: import `temp
 
 When you turn on the email, Google asks you to approve these permissions. Here's what each one is for:
 
-| Google says | What TRACK uses it for |
-|---|---|
-| *View and manage spreadsheets that this application has been installed in* | Read your jobs and write the stage date, in **this one spreadsheet only**, not your other files. |
-| *Send email as you* | Send the morning email **to you only**. It never emails your customers or anyone else. |
-| *Allow this application to run when you are not present* | Run the check once a day at your chosen hour. |
-| *Display and run third-party web content in prompts and sidebars inside Google applications* | Show the TRACK menu and its pop-up messages in your sheet. TRACK shows no outside web content. |
-| *See your primary Google Account email address* | Know which address to send the email to (yours). |
+| Google says | Where you see it | What TRACK uses it for |
+|---|---|---|
+| *Email address* ("Google will allow TRACK to access this info about you") | **Sign in to TRACK** screen | Know which address to send the email to (yours). |
+| *View and manage spreadsheets that this application has been installed in.* | **TRACK wants access** screen | Read your jobs and write the stage date, in **this one spreadsheet only**, not your other files. |
+| *Send email as you.* | **TRACK wants access** screen | Send the morning email **to you only**. It never emails your customers or anyone else. |
+| *Allow this application to run when you are not present.* | **TRACK wants access** screen | Run the check once a day at your chosen hour. |
+| *Display and run third-party web content in prompts and sidebars inside Google applications.* | **TRACK wants access** screen | Show the TRACK menu and its pop-up messages in your sheet. TRACK shows no outside web content. |
 
 **What it doesn't do:** it doesn't read your Gmail or Google Drive, it doesn't touch other spreadsheets, and it makes **no outside web calls**. **It runs entirely in your own Google account, and we (FloHub) receive nothing**: no data, no analytics, no tracking. You can read every line in [`Code.gs`](Code.gs).
 
 ### The Google permission screen
-Because this script is a copy that *you* run, not an app published to Google's marketplace, Google shows a warning: **"Google hasn't verified this app."** That's normal for personal scripts. To continue, click **Advanced → Go to TRACK (unsafe)**, then **Allow**. Only continue if you're comfortable with the permissions listed above. You can remove access anytime at [myaccount.google.com/permissions](https://myaccount.google.com/permissions).
+The first time you click **TRACK → Turn on morning email**, Google shows these screens (pictures of each one are in the **[illustrated setup guide](docs/SETUP.md#3-turn-on-the-morning-email)**):
+
+1. **Authorization required**: "A script attached to this document needs your permission to run." Click **OK**.
+2. **Sign in to TRACK**: choose your Google account. Google says it "will allow TRACK to access this info about you" and lists your **Email address**. Click **Continue**.
+3. **TRACK wants access to your Google Account**: "Select what TRACK can access" lists the four permissions in the table above, each with a tick box (or use **Select all**). Below them is a **"Make sure you trust TRACK"** panel. TRACK is a script in your own copy, not a published app, so Google notes it has no links to a privacy policy or terms of service. Leave all four ticked and click **Continue**.
+4. A box confirms **"Morning email is ON"**, with the hour, your sheet's time zone and your own email address.
+
+Only continue if you're comfortable with the permissions listed above. You can remove access anytime at [myaccount.google.com/permissions](https://myaccount.google.com/permissions).
+
+Sometimes Google also shows a **"Google hasn't verified this app"** warning before the permission list. It didn't appear in our test, but it can, because this is a personal script rather than an app Google has reviewed. If you see it, click **Advanced → Go to TRACK (unsafe)** to reach the same permission list.
 
 ---
 
